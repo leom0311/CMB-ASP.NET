@@ -343,6 +343,38 @@
                         $('#Codiceimmesso-error').html(result.message)
                         $('#Codiceimmesso-error').removeClass("d-none")
                     }
+
+                    $("#SerieID").html(
+                        result.series.map((e) => 
+                            ['<option value="', e.Value, '" ', (result.serieID == e.Value ? "selected" : ""), '>', e.Text, '</option>'].join('')
+                        ).join('')
+                    );
+                    $("#AlesaggioID").html(
+                        result.alesaggios.map((e) => 
+                            ['<option value="', e.Value, '" ', (result.alesaggioID == e.Value ? "selected" : ""), '>', e.Text, ' mm</option>'].join('')
+                        ).join('')
+                    );
+                    $("#SteloID").html(
+                        result.stelos.map((e) => 
+                            ['<option value="', e.Value, '" ', (result.steloID == e.Value ? "selected" : ""), '>', e.Text, '</option>'].join('')
+                        ).join('')
+                    );
+                    $("#TipoSteloID").html(
+                        result.tipoStelos.map((e) => 
+                            ['<option value="', e.Value, '" ', (result.tipoSteloID == e.Value ? "selected" : ""), '>', e.Text, '</option>'].join('')
+                        ).join('')
+                    );
+                    $("#TipoFissaggioID").html(
+                        result.tipoFissaggios.map((e) => 
+                            ['<option value="', e.Value, '" ', (result.tipoFissaggioID == e.Value ? "selected" : ""), '>', e.Text, '</option>'].join('')
+                        ).join('')
+                    );
+                    $('#CorsaID').val(result.corsa);
+                    ["SerieID", "AlesaggioID", "SteloID", "TipoSteloID", "TipoFissaggioID"].map((e) => {
+                        $("#" + e).selectpicker("refresh");
+                    });
+                    UpdateCode();
+                    $('#L6020_2Form').submit();
                 }
             });
         });

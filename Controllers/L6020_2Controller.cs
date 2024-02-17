@@ -190,7 +190,22 @@ namespace CMBListini.Controllers
                 var Stelos = dbCtx.L6020_2Stelo.Where(x => x.SteloisActive).Where(x => x.SteloAlesaggioID == Alesaggio.AlesaggioID).ToList().Select(x => new { Value = x.SteloID, Text = x.SteloAcronym + " - " + x.SteloDesc }).ToList();
                 var TipoStelos = dbCtx.L6020_2TipoStelo.Where(x => x.isActive).ToList().Select(x => new { Value = x.TipoSteloID, Text = x.TipoSteloAcronym + " - " + x.TipoSteloDesc }).ToList();
                 var TipoFissaggios = dbCtx.L6020_2TipoFissaggio.Where(x => x.isActive).ToList().Select(x => new { Value = x.TipoFissaggioID, Text = x.TipoFissaggioAcronym + " - " + x.TipoFissaggioDesc }).ToList();
-                return Content(JsonConvert.SerializeObject(new { status = true, values = Serie.SerieID }));
+
+                return Content(JsonConvert.SerializeObject(new { 
+                    status = true,
+                    series = Series,
+                    alesaggios = Alesaggios,
+                    stelos = Stelos,
+                    tipoStelos = TipoStelos,
+                    tipoFissaggios = TipoFissaggios,
+
+                    serieID = Serie.SerieID,
+                    alesaggioID = Alesaggio.AlesaggioID,
+                    steloID = Stelo.SteloID,
+                    corsa = Corsa,
+                    tipoSteloID = TipoStelo.TipoSteloID,
+                    tipoFissaggioID = TipoFissaggio.TipoFissaggioID,
+                }));
             }
         }
         
