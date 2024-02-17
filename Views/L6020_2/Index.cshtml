@@ -303,6 +303,7 @@
             if (b) {
                 $('#Codiceimmesso-error').addClass("d-none")
             } else {
+                $('#Codiceimmesso-error').html("formato del codice non valido (controlla l'esempio)")
                 $('#Codiceimmesso-error').removeClass("d-none")
             }
             return b; 
@@ -337,7 +338,11 @@
                 },
                 dateType: "JSON",
                 success: function (result) {
-                    console.log(result);
+                    result = JSON.parse(result);
+                    if (!result.status) {
+                        $('#Codiceimmesso-error').html(result.message)
+                        $('#Codiceimmesso-error').removeClass("d-none")
+                    }
                 }
             });
         });
