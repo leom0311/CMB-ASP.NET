@@ -338,6 +338,7 @@
                     if (!result.status) {
                         $('#Codiceimmesso-error').html(result.message)
                         $('#Codiceimmesso-error').removeClass("d-none")
+                        return;
                     }
 
                     ["Serie", "Alesaggio", "Stelo", "TipoStelo", "TipoFissaggio"].map((cls) => {
