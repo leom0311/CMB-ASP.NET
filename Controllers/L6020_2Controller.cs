@@ -33,8 +33,6 @@ namespace CMBListini.Controllers
         private ViewModelL6020_2 GetComponentsViewModelData()
         {
             ViewModelL6020_2 VM = new ViewModelL6020_2();
-
-
             L6202_2Calc quotation = new L6202_2Calc();
 
             using (CMBContext dbCtx = new CMBContext())
@@ -159,7 +157,8 @@ namespace CMBListini.Controllers
         //funzione aggiorna codice in schermata listino
         [HttpPost]
         public string UpdateCode(string ConnessioniOlio, string OpzioniCilindroID, string ProtezioneSensore, string SerieID, string AlesaggioID, string SteloID, string Corsa, string TipoSteloID, string TipoFissaggioID, string Distanziali, string SfiatiAriaID, string SensoriInduttiviID, string GuarnizioneID, string Controflangia, string SteloMonolitico, string MaterialeSteloID, string SteloProlungato, string SoffiettoStelo, string FilettaturaSteloID, string MaterialeBoccolaID, string Drenaggio, string SnodoNonMantenuto, string DadiIncassati, string MinimessID, string ProtezioneTrasduttore)
-        {   //rimpiazzo simboli strani in Corsa
+        {   
+            //rimpiazzo simboli strani in Corsa
             Corsa = Corsa.Replace(".", "");
 
 
@@ -364,17 +363,8 @@ namespace CMBListini.Controllers
 
                 }
 
-
             }
             //
-
-
-
-
-
-
-
-
             return ActualCode;
 
         }
