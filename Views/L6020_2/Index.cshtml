@@ -80,7 +80,7 @@
             <div class="form-row">
                 <!-- aggiungo bottone e textbox per la verifica del codice-->
                 <div class="form-group col-md-12">
-                    @Html.TextBoxFor(m => m.Codiceimmesso, new { @class = "form-control", @placeholder = "Input Code" })
+                    @Html.TextBoxFor(m => m.Codiceimmesso, new { @class = "form-control", @placeholder = "Inserire il codice e premere invio" })
                     @Html.ValidationMessageFor(m => m.Codiceimmesso, "", new { @class = "text-danger" })
                     <span id="Codiceimmesso-error" class="text-danger d-none">formato del codice non valido (controlla l'esempio)</span>
                     <p>e.g: A3025A0012E[xz]30 (A3: Serie, 025: Alesaggio, A: Stelo, 0012: Corsa, E: Tipo Stelo, [xz]: [ignore], 30: Tipo Fissaggio)</p>
