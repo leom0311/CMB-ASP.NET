@@ -14,7 +14,7 @@ namespace CMBListini.Models
         public int CalcID { get; set; }
         public String SerieID { get; set; }
 
-        public ViewModelL6020_2 ToViewModel(int Discount, int DiscountPlus, bool cusomDiscountMod, int customDiscount, int customDiscountExtra)
+        public ViewModelL6020_2 ToViewModel(int Discount, int DiscountPlus, bool cusomDiscountEnable, bool cusomDiscountMod, int customDiscount, int customDiscountExtra)
         {
             using (CMBContext dbCtx = new CMBContext())
             {
@@ -76,9 +76,10 @@ namespace CMBListini.Models
                 vm6020_2.InputDiscount = Discount.ToString();
                 vm6020_2.InputDiscountPlus = DiscountPlus.ToString();
 
-                vm6020_2.CustomDiscountMod = cusomDiscountMod.ToString();
-                vm6020_2.CustomDiscount = customDiscount.ToString();
-                vm6020_2.CustomExtraDiscount = customDiscountExtra.ToString();
+                vm6020_2.CustomDiscountEnable = cusomDiscountEnable;
+                vm6020_2.CustomDiscountMod = cusomDiscountMod;
+                vm6020_2.CustomDiscount = customDiscount;
+                vm6020_2.CustomExtraDiscount = customDiscountExtra;
 
                 return vm6020_2;
             }

@@ -52,6 +52,7 @@ namespace CMBListini.Controllers
                 }
 
                 string[] orgDiscountsubs = StringDiscount.Split('+');
+                bool customDiscountEnable = false;
                 int customDiscount = 0;
                 int customExtraDiscount = 0;
                 bool customDiscountMod = false;
@@ -65,6 +66,7 @@ namespace CMBListini.Controllers
                         .FirstOrDefault();
                     if (CustomDis != null)
                     {
+                        customDiscountEnable = true;
                         customDiscount = (int)CustomDis.DISCOUNT;
                         customExtraDiscount = (int)CustomDis.DISCOUNTEXTRA;
                         customDiscountMod = CustomDis.DISCOUNTMOD == true;
@@ -73,7 +75,8 @@ namespace CMBListini.Controllers
                 
                 VM = new L6202_2Calc().ToViewModel(
                     Int32.Parse(orgDiscountsubs[0]), 
-                    Int32.Parse(orgDiscountsubs[1]), 
+                    Int32.Parse(orgDiscountsubs[1]),
+                    customDiscountEnable,
                     customDiscountMod,
                     customDiscount,
                     customExtraDiscount
@@ -463,8 +466,8 @@ namespace CMBListini.Controllers
 
 
             //Discount
-            decimal InputDiscount = Int32.Parse(FormData.InputDiscount);
-            decimal InputDiscountPlus = Int32.Parse(FormData.InputDiscountPlus);
+            decimal InputDiscount = Int32.Parse(FormData.InputDiscount == null ? "0" : FormData.InputDiscount);
+            decimal InputDiscountPlus = Int32.Parse(FormData.InputDiscountPlus == null ? "0" : FormData.InputDiscountPlus);
 
             //
             //ExtraPrezzo
