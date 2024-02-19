@@ -16,7 +16,6 @@ namespace CMBListini.Controllers
         // GET: L6022_1
         public ActionResult Index()
         {
-
             ViewBag.Username = Session["username"];
             ViewBag.Organization = Session["Organization"];
             try
@@ -27,9 +26,6 @@ namespace CMBListini.Controllers
             {
                 return RedirectToAction("Index", "Dashboard");
             }
-
-
-
         }
         private ViewModel6022_1 GetComponentsViewModelData()
         {
