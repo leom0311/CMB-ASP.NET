@@ -27,6 +27,10 @@ namespace CMBListini.ViewModels
         [DisplayName("Extra Sconto")]
         [Range(0, 100)]
         public string InputDiscountPlus { get; set; }
+
+        public string CustomDiscountMod { get; set; }
+        public string CustomDiscount { get; set; }
+        public string CustomExtraDiscount { get; set; }
         //
 
         //MaggiorazioneTotale
