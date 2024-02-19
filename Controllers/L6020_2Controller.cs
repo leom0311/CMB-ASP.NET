@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 
@@ -19,7 +20,6 @@ namespace CMBListini.Controllers
         // GET: L6020_2
         public ActionResult Index()
         {
-
             ViewBag.Username = Session["username"];
             ViewBag.Organization = Session["Organization"];
             try
@@ -32,6 +32,8 @@ namespace CMBListini.Controllers
             }
         }
 
+
+
         private ViewModelL6020_2 GetComponentsViewModelData()
         {
             ViewModelL6020_2 VM = new ViewModelL6020_2();
@@ -39,22 +41,48 @@ namespace CMBListini.Controllers
 
             using (CMBContext dbCtx = new CMBContext())
             {
-                //Discount
+                // Discount
                 string Organization = (string)Session["Organization"];
                 var OrganizationData = dbCtx.Organizations.Where(x => x.OrganizationName == Organization).First();
                 string StringDiscount = OrganizationData.OrganizationDiscount ?? "0+0";
-                if (!StringDiscount.Contains("+"))
-                {
-                    StringDiscount += "+0";
+
+                Regex rg = new Regex(@"^\d+\+\d+$");
+                if (!rg.IsMatch(StringDiscount)) {
+                    StringDiscount = "0+0";
                 }
-                string Discount = StringDiscount;
-                string[] subs = Discount.Split('+');
-                //
-                VM = new L6202_2Calc().ToViewModel(Int32.Parse(subs[0]), Int32.Parse(subs[1]));
+
+                string[] orgDiscountsubs = StringDiscount.Split('+');
+                bool customDiscountEnable = false;
+                int customDiscount = 0;
+                int customExtraDiscount = 0;
+                bool customDiscountMod = false;
+                if (StringDiscount == "0+0") {
+                    var CustomDis = dbCtx.Users.SqlQuery("SELECT * " +
+                        "FROM dbo.Users " +
+                        "WHERE DISCOUNTMODIFY_START <= GETDATE() AND DISCOUNTMODIFY_STOP >= GETDATE() " +
+                        "AND DISCOUNTMOD IS NOT NULL AND DISCOUNT IS NOT NULL AND DISCOUNT > 0 AND DISCOUNT <= 100 " +
+                        "AND DISCOUNTEXTRA IS NOT NULL ANd DISCOUNTEXTRA > 0 and DISCOUNTEXTRA <= 100 " +
+                        "AND UserId = '" + (string)Session["UserName"] + "'")
+                        .FirstOrDefault();
+                    if (CustomDis != null)
+                    {
+                        customDiscountEnable = true;
+                        customDiscount = (int)CustomDis.DISCOUNT;
+                        customExtraDiscount = (int)CustomDis.DISCOUNTEXTRA;
+                        customDiscountMod = CustomDis.DISCOUNTMOD == true;
+                    }
+                }
+                
+                VM = new L6202_2Calc().ToViewModel(
+                    Int32.Parse(orgDiscountsubs[0]), 
+                    Int32.Parse(orgDiscountsubs[1]),
+                    customDiscountEnable,
+                    customDiscountMod,
+                    customDiscount,
+                    customExtraDiscount
+                );
                 VM.OrganizationData = dbCtx.Organizations.Where(x => x.OrganizationName == Organization).First();
-
             }
-
             return VM;
         }
 
@@ -438,8 +466,8 @@ namespace CMBListini.Controllers
 
 
             //Discount
-            decimal InputDiscount = Int32.Parse(FormData.InputDiscount);
-            decimal InputDiscountPlus = Int32.Parse(FormData.InputDiscountPlus);
+            decimal InputDiscount = Int32.Parse(FormData.InputDiscount == null ? "0" : FormData.InputDiscount);
+            decimal InputDiscountPlus = Int32.Parse(FormData.InputDiscountPlus == null ? "0" : FormData.InputDiscountPlus);
 
             //
             //ExtraPrezzo
