@@ -83,7 +83,6 @@ namespace CMBListini.Models
             {
                 return Content(JsonConvert.SerializeObject(new { status = false, message = "Dati non validi" }));
             }
-
             else
             {
                 try
